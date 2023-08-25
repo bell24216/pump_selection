@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ค้นหาไฟล์ SQL</title>
+</head>
+<body>
+    <h1>ค้นหาไฟล์ SQL</h1>
+
+    <form method="post" action="{% url 'search_sql_files' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="ตกลง">
+    </form>
+
+    <!-- ผลลัพธ์การค้นหา -->
+</body>
+</html>

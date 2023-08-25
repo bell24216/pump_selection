@@ -1,0 +1,103 @@
+{% extends 'login_main.html' %}
+<title>{% block title %} Update{{factory.fac_number.0}}{% endblock %}</title>
+{% block body %}
+
+<div class="container">
+<form method="POST"id="myForm" enctype="multipart/form-data" >
+    {% csrf_token %}
+<label for="model">Model:</label>
+<input type="text"  step="any" class="form-control" name="fac_number" id="fac_number" required value = "{{ fac_number }}"readonly>
+
+<label for="equipment">Equipment:</label>
+<select name="equipment" id="equipment" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option value={{ factory.equipment.0 }}>{{ factory.equipment.0 }}</option>
+    <option value="Pump">Pump </option>
+    <option value="Side Channel Pump">Side Channel Pump </option>
+    </select>
+
+<label for="brand">Brand:</label>
+<select name="brand" id="brand" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option value={{ factory.brand.0 }}>{{ factory.brand.0 }}</option>
+    <option value="KOP">KOP</option>
+    <option value="KOP Centrifugal Pump">KOP Centrifugal Pump </option>
+    <option value="Griswold">Griswold </option>
+    <option value="KOP Pump">KOP Pump </option>
+    <option value="KOP Pump (Process Pump MAX3, 9196)">KOP Pump (Process Pump MAX3, 9196) </option>
+    <option value="Richter Pump">Richter Pump </option>
+    <option value="Sero">Sero </option>
+    </select>
+
+<label for="model_short">Model Short:</label>
+<select name="model_short" id="model_short" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option value={{ factory.model_short.0 }}>{{ factory.model_short.0 }}</option>
+    <option value="KCR">KCR</option>
+    <option value="KDIN">KDIN</option>
+    <option value="KISO">KISO</option>
+    <option value="KOP">KOP</option>
+    <option value="KOP9196">KOP9196</option>
+    </select>
+
+<label for="model">Model:</label>
+<input type="text"  step="any" class="form-control" name="model" id="model" required value = "{{ factory.model.0 }}">
+
+<label for="rpm">RPM:</label>
+<select name="rpm" id="rpm" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option value={{ factory.rpm.0 }}>{{ factory.rpm.0 }}</option>
+    <option value="2900">2900</option>
+    <option value="1450">1450</option>
+    <option value="960">960</option>
+    </select>
+
+
+
+    <input type="file" name="excel_file" accept=".xlsx">
+
+    <br>
+    <br>
+    <button type="submit" class="btn btn-success"onclick="myFunction()">Submit</button>
+    
+    <button type="button" id="backButton" class="btn btn-secondary">Back</button>
+</form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('updateForm');
+      form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const formData = new FormData(form);
+          
+          // ส่ง request ไปยัง server โดยใช้ Fetch API
+          fetch('/update/FAC-0001/', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.message === 'Update successful') {
+                  // แสดง alert ถ้ามีการอัพเดตสำเร็จ
+                  // ใช้ sweetAlert (หากใช้ library) หรือ window.alert()
+                  // เช่น:
+                  // sweetAlert.fire({
+                  //     icon: 'success',
+                  //     title: 'Update successful',
+                  //     text: 'Your data has been updated successfully!',
+                  // });
+                  window.alert('Update successful: Your data has been updated successfully!');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      });
+  });
+</script>
+
+<script>
+    function goToPage() {
+      // แทนที่ 'your-page-url' ด้วย URL ของหน้าที่คุณต้องการให้เปิด
+      window.location.href = 'http://127.0.0.1:8000/details/{{ factory.fac_number.0 }}/';
+    }
+    </script>
+        
+
+{% endblock %}

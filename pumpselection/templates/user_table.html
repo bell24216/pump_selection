@@ -1,0 +1,33 @@
+{% extends 'login_main.html' %}
+<title>{% block title %} User Table{% endblock %}</title>
+{% block body %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>User_name</th>
+        <th>password</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Company</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+
+
+      {% for index, row in user_table.iterrows %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td><a href="/details_user/{{ row.user_name }}">{{ row.user_name }}</a></td>
+          <td>{{ row.user_password }}</td>
+          <td>{{ row.fname }}</td>
+          <td>{{ row.lname }}</td>
+          <td>{{ row.company_name }}</td>
+          <td>{{ row.status }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

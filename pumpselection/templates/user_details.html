@@ -1,0 +1,76 @@
+{% extends 'login_main.html' %}
+<title>{% block title %} {{user_table.user_name.0}}{% endblock %}</title>
+{% block body %}
+
+
+
+<form method="POST"id="myForm" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <form>
+            <div class="form-group">
+              <label for="user_name">User Name:</label>
+              <input type="text" class="form-control" id="user_name" name="user_name" required value="{{ user_table.user_name.0 }}">
+            </div>
+    
+            <div class="form-group">
+              <label for="user_password">Password:</label>
+              <input type="text" class="form-control" id="user_password" name="user_password" required value="{{ user_table.user_password.0 }}">
+            </div>
+    
+            <div class="form-group">
+              <label for="fname">Name:</label>
+              <input type="text" class="form-control" id="fname" name="fname" required value="{{ user_table.fname.0 }}">
+            </div>
+    
+            <div class="form-group">
+              <label for="lname">Surname:</label>
+              <input type="text" class="form-control" id="lname" name="lname" required value="{{ user_table.lname.0 }}">
+            </div>
+    
+            <div class="form-group">
+              <label for="status">Status:</label>
+              <select name="status" id="status" class="form-select" aria-label="Status" required>
+                <option value="{{ user_table.status.0 }}">{{ user_table.status.0 }}</option>
+                <option value="Admin">Admin</option>
+                <option value="Sales">Sales</option>
+                <option value="Customer">Customer</option>
+              </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="company">Company:</label>
+              <input type="text" class="form-control" id="company" name="company" required value="{{ user_table.company_name.0 }}">
+            </div>
+            <br>
+            
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a href="/user_delete/{{ user_table.user_name.0 }}" class="btn btn-primary">ลบข้อมูลผู้ใช้</a>
+            <button type="button" id="backButton" class="btn btn-secondary custom-btn-width" onclick="goToPage()">Back</button>
+          </form>
+        </div>
+      </div>
+    </div>
+</form>
+
+<script>
+  document.getElementById("status").addEventListener("change", function () {
+    var companyInput = document.getElementById("company");
+    if (this.value === "Customer") {
+      companyInput.removeAttribute("disabled");
+    } else {
+      companyInput.setAttribute("disabled", true);
+      companyInput.value = ""; // Clear the company value when not a customer
+    }
+  });
+</script>
+
+<script>
+  function goToPage() {
+    // แทนที่ 'your-page-url' ด้วย URL ของหน้าที่คุณต้องการให้เปิด
+    window.location.href = 'http://127.0.0.1:8000/user/';
+  }
+  </script>
+{% endblock %}

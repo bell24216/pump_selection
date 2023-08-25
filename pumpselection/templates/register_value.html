@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+{% block body %}
+<h1> Register </h1>
+
+{% if message == "เข้าสู่ระบบสำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = 'my_view/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+
+{% elif message == "เข้าสู่ระบบไม่สำเร็จ" %}
+  <p>{{ message }}</p>
+
+
+{% elif message == "อัปเดตข้อมูลสำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/table/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+  {% elif message == "เพิ่มข้อมูลสำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/table/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+  {% elif message == "ลบข้อมูลสำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/table/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+
+  {% elif message == "อัปเดตข้อมูลผู้ใช้สำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/user/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+
+  {% elif message == "ลบข้อมูลผู้ใช้สำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/user/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+  {% elif message == "เพิ่มข้อมูลผู้ใช้สำเร็จ" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/user/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+
+{% elif message == "ชื่อผู้ใช้มีอยู่ในฐานข้อมูล" %}
+  <p>{{ message }}</p>
+  <script>
+    setTimeout(function() {
+      window.location.href = '/signup/'; // เปลี่ยนเป็น URL หน้าที่คุณต้องการ
+    }, 500); // อัปเดตหน้าเว็บหลังจากผ่านไป 0.5 วินาที (500 มิลลิวินาที)
+  </script>
+  
+{% endif %}
+
+
+<button onclick="goBack()">ย้อนกลับ</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+{% endblock %}

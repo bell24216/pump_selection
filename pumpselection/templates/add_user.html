@@ -1,0 +1,31 @@
+{% extends 'login_main.html' %}
+<title>{% block title %}Add User{% endblock %}</title>
+{% block body %}
+<div class="container">
+<form method="POST"id="myForm" enctype="multipart/form-data" >
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="user_name">User Name:</label>
+    <input type="text" class="form-control" id="user_name" name="user_name" required value = "{{ user_table.user_name.0 }}">
+  </div>
+  <div class="form-group">
+    <label for="user_name">Password:</label>
+    <input type="text" class="form-control" id="user_password" name="user_password" required value = "{{ user_table.user_password.0 }}">
+  </div>
+
+  <div class="form-group">
+    <label for="status">Status:</label>
+  <select name="status" id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"required>
+    <option value="" disabled selected></option>
+    <option value="Admin">Admin</option>
+    <option value="Sales">Sales</option>
+    <option value="Customer">Customer</option>
+    </select>
+  
+  </div>
+  <button type="submit" class="btn btn-success" id="submitButton">Submit</button>
+</div>
+
+</form>
+
+{% endblock %}

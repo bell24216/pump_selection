@@ -1,0 +1,43 @@
+{% extends 'login_main.html' %}
+
+<title>{% block title %}Register{% endblock %}</title>
+{% block body %}
+<div class="container">
+  <h1> Register </h1>
+
+  <form method="POST" id="myForm" onsubmit="window.location.reload()">
+    {% csrf_token %}
+    <input type="text" step="any" class="form-control" name="name" id="name" required value placeholder="User Name">
+    <br>
+    <input type="password" step="any" class="form-control" name="password" id="password" required value
+      placeholder="Password">
+    <br>
+    <input type="fname" step="any" class="form-control" name="fname" id="fname" required value placeholder="Name">
+    <br>
+    <input type="lname" step="any" class="form-control" name="lname" id="lname" required value placeholder="Surname">
+    <br>
+    <select name="status" id="status" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+      <option value="" disabled selected>Select status</option>
+      <option value="Customer">Customer</option>
+      <option value="Sales">Sales</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <input type="company" step="any" class="form-control" name="company" id="company" required value
+      placeholder="Company" disabled>
+    <br>
+    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="button" class="btn btn-danger" onclick="resetForm()">Reset</button>
+  </form>
+</div>
+<script>
+  document.getElementById("status").addEventListener("change", function () {
+    var companyInput = document.getElementById("company");
+    if (this.value === "Customer") {
+      companyInput.removeAttribute("disabled");
+    } else {
+      companyInput.setAttribute("disabled", true);
+      companyInput.value = ""; // Clear the company value when not a customer
+    }
+  });
+</script>
+{% endblock %}

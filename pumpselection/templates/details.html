@@ -1,0 +1,80 @@
+{% extends 'login_main.html' %}
+<title>{% block title %} {{factory.fac_number.0}}{% endblock %}</title>
+{% block body %}
+
+<div class="container">
+  <div class="row justify-content-between">
+    <div class="col-sm text-left">
+
+      <br>
+      <button type="button" id="backButton" class="btn btn-secondary custom-btn-width" onclick="goToPage()">Back</button>
+    </div>
+    <div class="col-sm text-center">
+      <h1>{{ factory.fac_number.0 }}</h1>
+      <br>
+      <h2>Pump Performance Curve</h2>
+      <br>
+      <h2>{{ factory.model.0 }}</h2>
+    </div>
+    <div class="col-sm text-center">
+      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="/delete/{{ factory.fac_number.0 }}" class="btn btn-danger ml-5 custom-btn-width">ลบ</a>
+
+<a href="/update/{{ factory.fac_number.0 }}" class="btn btn-primary ml-5 custom-btn-width">แก้ไข</a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% if chart %}
+<img src="data:image/png;base64,{{ chart }}" id="chart-img" class="graph-img" width="1600" height="700">
+{% endif %}
+<br>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Fac Number</th>
+      <th>Model</th>
+      <th>Data_type</th>
+      <th>RPM</th>
+      <th>Imp</th>
+      <th>Flow</th>
+      <th>Head</th>
+      <th>Eff</th>
+      <th>Npshr</th>
+      <th>KW</th>
+      <th>Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for index, row in factory.iterrows %}
+    <tr>
+      <td>{{ index }}</td>
+      <td>{{ row.fac_number }}</td>
+      <td>{{ row.model_short }}</td>
+      <td>{{ row.data_type }}</td>
+      <td>{{ row.rpm }}</td>
+      <td>{{ row.imp_dia }}</td>
+      <td>{{ row.flow }}</td>
+      <td>{{ row.head }}</td>
+      <td>{% if row.eff %}{{ row.eff }}{% else %}{{ '' }}{% endif %}</td>
+      <td>{{ row.npshr }}</td>
+      <td>{{ row.kw }}</td>
+      <td>{{ row.model }}</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  function goToPage() {
+    // แทนที่ 'your-page-url' ด้วย URL ของหน้าที่คุณต้องการให้เปิด
+    window.location.href = 'http://127.0.0.1:8000/table/';
+  }
+  </script>
+{% endblock %}
