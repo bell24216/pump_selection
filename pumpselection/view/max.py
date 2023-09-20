@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import math
 import pandas as pd
 import mysql.connector
-
+from pumpselection.view.connectDB import mydb,mySQL
+from pumpselection.view.showchart import sort_eff
 
 def loaddata_max3(fac_number, fflow, hhead,dfmax):
     import numpy as np
@@ -21,7 +22,7 @@ def loaddata_max3(fac_number, fflow, hhead,dfmax):
         heads = dfmax.query(f"data_type == 'QH' and imp_dia == {imp_dia}and fac_number == '{fac_number}'")[
             'head'].tolist()
         imp_y_list.append(heads)
-    # print(im_size_lst)
+    print(im_size_lst)
     
     (
         imp_x_1,
@@ -540,68 +541,7 @@ def loaddata_max3(fac_number, fflow, hhead,dfmax):
                 closest_index = np.argmin(distances)
                 return points[closest_index]
             # Impeller dimension
-            # ### imp_1
-            # imp_x_new_1 = np.linspace(min(imp_x_1), max(imp_x_1), num=100)
-            # imp_y_new_1 = np.interp(imp_x_new_1, imp_x_1, imp_y_1)
 
-            # new_points_imp_x_y_1 = [(x, y) for x, y in zip(imp_x_new_1, imp_y_new_1)]
-
-            # ### imp_2
-            # imp_x_new_2 = np.linspace(min(imp_x_2), max(imp_x_2), num=100)
-            # imp_y_new_2 = np.interp(imp_x_new_2, imp_x_2, imp_y_2)
-
-            # new_points_imp_x_y_2 = [(x, y) for x, y in zip(imp_x_new_2, imp_y_new_2)]
-
-            # ### imp_3
-            # imp_x_new_3 = np.linspace(min(imp_x_3), max(imp_x_3), num=100)
-            # imp_y_new_3 = np.interp(imp_x_new_3, imp_x_3, imp_y_3)
-
-            # new_points_imp_x_y_3 = [(x, y) for x, y in zip(imp_x_new_3, imp_y_new_3)]
-
-            # ### imp_4
-            # imp_x_new_4 = np.linspace(min(imp_x_4), max(imp_x_4), num=100)
-            # imp_y_new_4 = np.interp(imp_x_new_4, imp_x_4, imp_y_4)
-
-            # new_points_imp_x_y_4 = [(x, y) for x, y in zip(imp_x_new_4, imp_y_new_4)]
-            # ### imp_5
-            # imp_x_new_5 = np.linspace(min(imp_x_5), max(imp_x_5), num=100)
-            # imp_y_new_5 = np.interp(imp_x_new_5, imp_x_5, imp_y_5)
-
-            # new_points_imp_x_y_5 = [(x, y) for x, y in zip(imp_x_new_5, imp_y_new_5)]
-            # ### imp_6
-            # imp_x_new_6 = np.linspace(min(imp_x_6), max(imp_x_6), num=100)
-            # imp_y_new_6 = np.interp(imp_x_new_6, imp_x_6, imp_y_6)
-
-            # new_points_imp_x_y_6 = [(x, y) for x, y in zip(imp_x_new_6, imp_y_new_6)]
-            # ### imp_7
-            # imp_x_new_7 = np.linspace(min(imp_x_7), max(imp_x_7), num=100)
-            # imp_y_new_7 = np.interp(imp_x_new_7, imp_x_7, imp_y_7)
-
-            # new_points_imp_x_y_7 = [(x, y) for x, y in zip(imp_x_new_7, imp_y_new_7)]
-            # ### imp_8
-            # imp_x_new_8 = np.linspace(min(imp_x_8), max(imp_x_8), num=100)
-            # imp_y_new_8 = np.interp(imp_x_new_8, imp_x_8, imp_y_8)
-
-            # new_points_imp_x_y_8 = [(x, y) for x, y in zip(imp_x_new_8, imp_y_new_8)]
-            # ### imp_9
-            # imp_x_new_9 = np.linspace(min(imp_x_9), max(imp_x_9), num=100)
-            # imp_y_new_9 = np.interp(imp_x_new_9, imp_x_9, imp_y_9)
-
-            # new_points_imp_x_y_9 = [(x, y) for x, y in zip(imp_x_new_9, imp_y_new_9)]
-            # # print(im_size_lst)
-            # try:
-            #     imp_list_fir = []
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_1, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_2, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_3, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_4, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_5, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_6, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_7, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_8, target))
-            #     imp_list_fir.append(closest_point(new_points_imp_x_y_9, target))
-            # except:
-            #     pass
             coefficients = []
             equation_func = []
             x_y_check = []
@@ -666,22 +606,29 @@ def loaddata_max3(fac_number, fflow, hhead,dfmax):
             # print("imp_dis_clo_1", imp_dis_clo_1)
             # print("imp_dis_clo_2", imp_dis_clo_2)
 
-            imp_test = abs((imp_near_x_y1[1]-y) /y) * 100
-            # print(imp_test)
-            if imp_test < 1:
-                imp_output = im_size_lst[imp_in_near_x_y1]
 
-            elif imp_dis_all < imp_dis_clo_2:
-                imp_output = abs((imp_dis_unit * imp_d2 / imp_d1) + im_size_lst[imp_in_near_x_y1])
+            if im_size_lst[imp_in_near_x_y1] > im_size_lst[imp_in_near_x_y2]:
+                if imp_dis_all < imp_dis_clo_2:
+                    imp_output = abs(
+                        (imp_dis_unit * imp_d2 / imp_d1) + im_size_lst[imp_in_near_x_y1]
+                    )
+                elif imp_dis_all > imp_dis_clo_2:
+                    imp_output = abs(
+                        (imp_dis_unit * imp_d2 / imp_d1) - im_size_lst[imp_in_near_x_y1]
+                    )
+            elif im_size_lst[imp_in_near_x_y1] < im_size_lst[imp_in_near_x_y2]:
+                if imp_dis_all < imp_dis_clo_2:
+                    imp_output = abs(
+                        (imp_dis_unit * imp_d2 / imp_d1) - im_size_lst[imp_in_near_x_y1]
+                    )
+                    
+                elif imp_dis_all > imp_dis_clo_2:
+                    imp_output = abs(
+                        (imp_dis_unit * imp_d2 / imp_d1) + im_size_lst[imp_in_near_x_y1]
+                    )
+            
 
-            elif imp_dis_all > imp_dis_clo_2:
-                imp_output = abs((imp_dis_unit * imp_d2 / imp_d1) - im_size_lst[imp_in_near_x_y1])
 
-            # print("Impeller dimension is %f mm" % (imp_output))
-            if imp_output < min(im_size_lst) or imp_output > max(im_size_lst):
-                return
-
-            ####KW power
 
             ####kw
             n_x1 = closest(kw_size_lst, imp_output)
@@ -921,6 +868,59 @@ def loaddata_max3(fac_number, fflow, hhead,dfmax):
 
 
             name = dfmax.query(f"fac_number == '{fac_number}'")["model"].unique()
+            pre_eff1 = list(zip(eff_data_x[0], eff_data_y[0]))
+            pre_eff2 = list(zip(eff_data_x[1], eff_data_y[1]))
+            pre_eff3 = list(zip(eff_data_x[2], eff_data_y[2]))
+            pre_eff4 = list(zip(eff_data_x[3], eff_data_y[3]))
+            pre_eff5 = list(zip(eff_data_x[4], eff_data_y[4]))
+            pre_eff6 = list(zip(eff_data_x[5], eff_data_y[5]))
+            pre_eff7 = list(zip(eff_data_x[6], eff_data_y[6]))
+            pre_eff8 = list(zip(eff_data_x[7], eff_data_y[8]))
+            pre_eff9 = list(zip(eff_data_x[8], eff_data_y[8]))
+
+
+
+            empty_data = ([], [])
+            try:
+                ready_eff1_x, ready_eff1_y = sort_eff(pre_eff1)
+            except:
+                ready_eff1_x, ready_eff1_y = empty_data
+            try:
+                ready_eff2_x, ready_eff2_y = sort_eff(pre_eff2)
+            except:
+                ready_eff2_x, ready_eff2_y = empty_data
+            try:
+                ready_eff3_x, ready_eff3_y = sort_eff(pre_eff3)
+            except:
+                ready_eff3_x, ready_eff3_y = empty_data
+            try:
+                ready_eff4_x, ready_eff4_y = sort_eff(pre_eff4)
+            except:
+                ready_eff4_x, ready_eff4_y = empty_data
+            try:
+                ready_eff5_x, ready_eff5_y = sort_eff(pre_eff5)
+            except:
+                ready_eff5_x, ready_eff5_y = empty_data
+            try:
+                ready_eff6_x, ready_eff6_y = sort_eff(pre_eff6)
+            except:
+                ready_eff6_x, ready_eff6_y = empty_data
+            try:
+                ready_eff7_x, ready_eff7_y = sort_eff(pre_eff7)
+            except:
+                ready_eff7_x, ready_eff7_y = empty_data
+            try:
+                ready_eff8_x, ready_eff8_y = sort_eff(pre_eff8)
+            except:
+                ready_eff8_x, ready_eff8_y = empty_data
+            try:
+                ready_eff9_x, ready_eff9_y = sort_eff(pre_eff9)
+            except:
+                ready_eff9_x, ready_eff9_y = empty_data
+
+            ready_eff_x_list = [ready_eff1_x, ready_eff2_x, ready_eff3_x, ready_eff4_x, ready_eff5_x, ready_eff6_x, ready_eff7_x, ready_eff8_x, ready_eff9_x]
+            ready_eff_y_list = [ready_eff1_y, ready_eff2_y, ready_eff3_y, ready_eff4_y, ready_eff5_y, ready_eff6_y, ready_eff7_y, ready_eff8_y, ready_eff9_y]
+
             chart = get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot,eff_x_list_plot,eff_y_list_plot,eff_size_lst,eff_x_list,eff_y_list,flow_input,Head_input,imp_output, eff_output, power, npshr_output)
             # print("Impeller dimension is %f mm" % (imp_output))
             # print('Power requirment = %f kW' %(power))
@@ -931,7 +931,7 @@ def loaddata_max3(fac_number, fflow, hhead,dfmax):
         pass
 
 def get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot,eff_x_list_plot,eff_y_list_plot,eff_size_lst,eff_x_list,eff_y_list,flow_input,Head_input,imp_output, eff_output, power, npshr_output):
-    fix, ax = plt.subplots(figsize=(10,10))
+    fix, ax = plt.subplots(figsize=(5,5))
     # plt.switch_backend('AGG')
     for i in range(len(im_size_lst)):
         ax.plot(imp_data_x[i], imp_data_y[i],linewidth=1,color='black')
@@ -972,7 +972,7 @@ def get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot
     # plt.xticks(rotation=45)
     ax.minorticks_on()
     
-    ax.grid(True, which='both')
+
 
     graph = get_graph()
     return graph

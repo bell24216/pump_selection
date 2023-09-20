@@ -1,4 +1,4 @@
-{% extends 'login_main.html' %}
+{% extends 'login_main_sales.html' %}
 <title>{% block title %} {{factory.fac_number.0}}{% endblock %}</title>
 {% block body %}
 
@@ -17,9 +17,9 @@
       <h2>{{ factory.model.0 }}</h2>
     </div>
     <div class="col-sm text-center">
-      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="/delete/{{ factory.fac_number.0 }}" class="btn btn-danger ml-5 custom-btn-width">ลบ</a>
+      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<a href="delete/{{ factory.fac_number.0 }}/sales" class="btn btn-danger ml-5 custom-btn-width">ลบ</a>
 
-<a href="/update/{{ factory.fac_number.0 }}" class="btn btn-primary ml-5 custom-btn-width">แก้ไข</a>
+<a href="/sales/update/{{ factory.fac_number.0 }}" class="btn btn-primary ml-5 custom-btn-width">แก้ไข</a>
     </div>
   </div>
 </div>

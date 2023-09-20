@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math
 import pandas as pd
 from pumpselection.view.connectDB import mydb,mySQL
-
+from pumpselection.view.showchart import sort_eff
 
 def loaddata_kdin(fac_number, fflow, hhead, dfkdin):
     import numpy as np
@@ -843,9 +843,61 @@ def loaddata_kdin(fac_number, fflow, hhead, dfkdin):
                 npshr_near_x = closest(npshr_x_1, x)
                 npshr_near_in = npshr_x_1.index(npshr_near_x)
                 npshr_near_y = npshr_y_1[npshr_near_in]
-        
+            
+                pre_eff1 = list(zip(eff_data_x[0], eff_data_y[0]))
+                pre_eff2 = list(zip(eff_data_x[1], eff_data_y[1]))
+                pre_eff3 = list(zip(eff_data_x[2], eff_data_y[2]))
+                pre_eff4 = list(zip(eff_data_x[3], eff_data_y[3]))
+                pre_eff5 = list(zip(eff_data_x[4], eff_data_y[4]))
+                pre_eff6 = list(zip(eff_data_x[5], eff_data_y[5]))
+                pre_eff7 = list(zip(eff_data_x[6], eff_data_y[6]))
+                pre_eff8 = list(zip(eff_data_x[7], eff_data_y[8]))
+                pre_eff9 = list(zip(eff_data_x[8], eff_data_y[8]))
 
-                chart = get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot,eff_x_list_plot,eff_y_list_plot,eff_size_lst,eff_x_list,eff_y_list,flow_input,Head_input,imp_output, eff_output, power, npshr_near_y)
+
+
+                empty_data = ([], [])
+                try:
+                    ready_eff1_x, ready_eff1_y = sort_eff(pre_eff1)
+                except:
+                    ready_eff1_x, ready_eff1_y = empty_data
+                try:
+                    ready_eff2_x, ready_eff2_y = sort_eff(pre_eff2)
+                except:
+                    ready_eff2_x, ready_eff2_y = empty_data
+                try:
+                    ready_eff3_x, ready_eff3_y = sort_eff(pre_eff3)
+                except:
+                    ready_eff3_x, ready_eff3_y = empty_data
+                try:
+                    ready_eff4_x, ready_eff4_y = sort_eff(pre_eff4)
+                except:
+                    ready_eff4_x, ready_eff4_y = empty_data
+                try:
+                    ready_eff5_x, ready_eff5_y = sort_eff(pre_eff5)
+                except:
+                    ready_eff5_x, ready_eff5_y = empty_data
+                try:
+                    ready_eff6_x, ready_eff6_y = sort_eff(pre_eff6)
+                except:
+                    ready_eff6_x, ready_eff6_y = empty_data
+                try:
+                    ready_eff7_x, ready_eff7_y = sort_eff(pre_eff7)
+                except:
+                    ready_eff7_x, ready_eff7_y = empty_data
+                try:
+                    ready_eff8_x, ready_eff8_y = sort_eff(pre_eff8)
+                except:
+                    ready_eff8_x, ready_eff8_y = empty_data
+                try:
+                    ready_eff9_x, ready_eff9_y = sort_eff(pre_eff9)
+                except:
+                    ready_eff9_x, ready_eff9_y = empty_data
+
+                ready_eff_x_list = [ready_eff1_x, ready_eff2_x, ready_eff3_x, ready_eff4_x, ready_eff5_x, ready_eff6_x, ready_eff7_x, ready_eff8_x, ready_eff9_x]
+                ready_eff_y_list = [ready_eff1_y, ready_eff2_y, ready_eff3_y, ready_eff4_y, ready_eff5_y, ready_eff6_y, ready_eff7_y, ready_eff8_y, ready_eff9_y]
+
+                chart = get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot,eff_x_list_plot,eff_y_list_plot,eff_size_lst,ready_eff_x_list,ready_eff_y_list,flow_input,Head_input,imp_output, eff_output, power, npshr_near_y)
                 # print("Impeller dimension is %f mm" % (imp_output))
                 # print('Power requirment = %f kW' %(power))
                 # print("Efficiency is = %f percent" % (eff_output))
@@ -865,7 +917,7 @@ def get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot
     # for i in range(len(eff_size_lst)):
     #     plt.plot(eff_x_list[i], eff_y_list[i],)
     for i in range(len(eff_size_lst_plot)):
-        ax.plot(eff_x_list_plot[i], eff_y_list_plot[i],linewidth=0.5, color='blue')
+        ax.plot(eff_x_list_plot[i], eff_y_list_plot[i],linewidth=1, color='blue')
     ax.set_ylabel("Head")
     ax.set_xlabel("Flow")
     plt.title(name)
@@ -898,7 +950,7 @@ def get_plot(fac_number,name,im_size_lst,imp_data_x,imp_data_y,eff_size_lst_plot
     # plt.xticks(rotation=45)
     ax.minorticks_on()
     
-    ax.grid(True, which='both')
+
     
     graph = get_graph()
     

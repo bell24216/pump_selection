@@ -4,6 +4,9 @@ import xlrd
 import mysql.connector
 import pandas as pd
 import re
+from pumpselection.view.showchart import sort_eff
+import matplotlib.pyplot as plt
+
 def update_data_excel(excel_file,fac_number):
     workbook = load_workbook(excel_file)
     worksheet = workbook['Sheet1']  # ระบุชื่อแผ่นงานที่ต้องการอ่าน
@@ -176,15 +179,9 @@ def update_data_excel(excel_file,fac_number):
 
 
     imp_dia_list = [
-        float(item.replace('mm', '').replace(' mm', ''))
-        for item in imp_dia_list if item is not None
+        float(re.search(r'\d+(\.\d+)?', item).group()) if isinstance(item, str) and item is not None else item
+        for item in imp_dia_list
     ]
-
-    # try:
-    #     imp_dia_list = [{item.replace('mm', '')} for item in imp_dia_list if item is not None]
-    # except ValueError:
-    #     imp_dia_list = [{item.replace(' mm', '')} for item in imp_dia_list if item is not None]
-
 
 
     imp_dia_list_pre = []
@@ -197,7 +194,6 @@ def update_data_excel(excel_file,fac_number):
     # print(type(imp_dia_list))
     # print(imp_dia_list)
     imp_x_list = [item for item in imp_x_list if item is not None]
-    imp_x_list = [value * 3.6 for value in imp_x_list]
     imp_y_list = [item for item in imp_y_list if item is not None]
 
     # print(len(id_qh))
@@ -241,12 +237,27 @@ def update_data_excel(excel_file,fac_number):
     #############################
     #EFFICIENCY%
     start_row = 5
-    end_row = 10000			
+    end_row = 10000		
  
     current_row = start_row
     eff_dia_list = []
     eff_x_list = []
     eff_y_list = []
+    eff_x_1_list, eff_y_1_list = [], []
+    eff_x_2_list, eff_y_2_list = [], []
+    eff_x_3_list, eff_y_3_list = [], []
+    eff_x_4_list, eff_y_4_list = [], []
+    eff_x_5_list, eff_y_5_list = [], []
+    eff_x_6_list, eff_y_6_list = [], []
+    eff_x_7_list, eff_y_7_list = [], []
+    eff_x_8_list, eff_y_8_list = [], []
+    eff_x_9_list, eff_y_9_list = [], []
+    eff_x_10_list, eff_y_10_list = [], []
+    eff_x_11_list, eff_y_11_list = [], []
+    eff_x_12_list, eff_y_12_list = [], []
+    eff_x_13_list, eff_y_13_list = [], []
+    eff_x_14_list, eff_y_14_list = [], []
+    eff_x_15_list, eff_y_15_list = [], []
     se_quence_eff_1 = 0
     se_quence_eff_2 = 0
     se_quence_eff_3 = 0
@@ -267,9 +278,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AD = 'AD' + str(current_row)
         cell_AE = 'AE' + str(current_row)
         eff_x_1 = worksheet[cell_AD].value
-        eff_x_list.append(eff_x_1)
+        # eff_x_list.append(eff_x_1)
+        eff_x_1_list.append(eff_x_1)
         eff_y_1 = worksheet[cell_AE].value
-        eff_y_list.append(eff_y_1)
+        # eff_y_list.append(eff_y_1)
+        eff_y_1_list.append(eff_y_1)
         # print(eff_x_list)
         if eff_y_1 != None:
             eff_dia_1 = (worksheet['AD3'].value)
@@ -283,9 +296,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AG = 'AG' + str(current_row)
         cell_AH = 'AH' + str(current_row)
         eff_x_2 = worksheet[cell_AG].value
-        eff_x_list.append(eff_x_2)
+        # eff_x_list.append(eff_x_2)
+        eff_x_2_list.append(eff_x_2)
         eff_y_2 = worksheet[cell_AH].value
-        eff_y_list.append(eff_y_2)
+        # eff_y_list.append(eff_y_2)
+        eff_y_2_list.append(eff_y_2)
         if eff_x_2 != None:
             eff_dia_2 = worksheet['AG3'].value
             eff_dia_list.append(eff_dia_2)
@@ -297,9 +312,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AJ = 'AJ' + str(current_row)
         cell_AK = 'AK' + str(current_row)
         eff_x_3 = worksheet[cell_AJ].value
-        eff_x_list.append(eff_x_3)
+        # eff_x_list.append(eff_x_3)
+        eff_x_3_list.append(eff_x_3)
         eff_y_3 = worksheet[cell_AK].value
-        eff_y_list.append(eff_y_3)
+        # eff_y_list.append(eff_y_3)
+        eff_y_3_list.append(eff_y_3)
         if eff_x_3 != None:
             eff_dia_3 = worksheet['AJ3'].value
             eff_dia_list.append(eff_dia_3)
@@ -312,10 +329,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AM = 'AM' + str(current_row)
         cell_AN = 'AN' + str(current_row)
         eff_x_4 = worksheet[cell_AM].value
-        eff_x_list.append(eff_x_4)
+        # eff_x_list.append(eff_x_4)
+        eff_x_4_list.append(eff_x_4)
         eff_y_4 = worksheet[cell_AN].value
-        eff_y_list.append(eff_y_4)
-
+        # eff_y_list.append(eff_y_4)
+        eff_y_4_list.append(eff_y_4)
         if eff_x_4 != None:
             eff_dia_4 = worksheet['AM3'].value
             eff_dia_list.append(eff_dia_4)
@@ -328,10 +346,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AP = 'AP' + str(current_row)
         cell_AQ = 'AQ' + str(current_row)
         eff_x_5 = worksheet[cell_AP].value
-        eff_x_list.append(eff_x_5)
+        # eff_x_list.append(eff_x_5)
+        eff_x_5_list.append(eff_x_5)
         eff_y_5 = worksheet[cell_AQ].value
-        eff_y_list.append(eff_y_5)
-
+        # eff_y_list.append(eff_y_5)
+        eff_y_5_list.append(eff_y_5)
         if eff_x_5 != None:
             eff_dia_5 = worksheet['AP3'].value
             eff_dia_list.append(eff_dia_5)
@@ -343,10 +362,11 @@ def update_data_excel(excel_file,fac_number):
         cell_AS = 'AS' + str(current_row)
         cell_AT = 'AT' + str(current_row)
         eff_x_6 = worksheet[cell_AS].value
-        eff_x_list.append(eff_x_6)
+        # eff_x_list.append(eff_x_6)
+        eff_x_6_list.append(eff_x_6)
         eff_y_6 = worksheet[cell_AT].value
-        eff_y_list.append(eff_y_6)
-
+        # eff_y_list.append(eff_y_6)
+        eff_y_6_list.append(eff_y_6)
         if eff_x_6 != None:
             eff_dia_6 = worksheet['AS3'].value
             eff_dia_list.append(eff_dia_6)
@@ -358,11 +378,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_AV = 'AV' + str(current_row)
         cell_AW = 'AW' + str(current_row)
-        eff_x_7 = worksheet[cell_AV].value
-        eff_x_list.append(eff_x_7)
-        eff_y_7 = worksheet[cell_AW].value
-        eff_y_list.append(eff_y_7)
-
+        eff_x_7 = (worksheet[cell_AV].value)
+        # eff_x_list.append(eff_x_7)
+        eff_x_7_list.append(eff_x_7)
+        eff_y_7 = (worksheet[cell_AW].value)
+        # eff_y_list.append(eff_y_7)
+        eff_y_7_list.append(eff_y_7)
         if eff_x_7 != None:
             eff_dia_7 = worksheet['AV3'].value
             eff_dia_list.append(eff_dia_7)
@@ -373,11 +394,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_AY = 'AY' + str(current_row)
         cell_AZ = 'AZ' + str(current_row)
-        eff_x_8 = worksheet[cell_AY].value
-        eff_x_list.append(eff_x_8)
-        eff_y_8 = worksheet[cell_AZ].value
-        eff_y_list.append(eff_y_8)
-
+        eff_x_8 = (worksheet[cell_AY].value)
+        # eff_x_list.append(eff_x_8)
+        eff_x_8_list.append(eff_x_8)
+        eff_y_8 = (worksheet[cell_AZ].value)
+        # eff_y_list.append(eff_y_8)
+        eff_y_8_list.append(eff_y_8)
         if eff_x_8 != None:
             eff_dia_8 = worksheet['AY3'].value
             eff_dia_list.append(eff_dia_8)
@@ -388,11 +410,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BB = 'BB' + str(current_row)
         cell_BC = 'BC' + str(current_row)
-        eff_x_9 = worksheet[cell_BB].value
-        eff_x_list.append(eff_x_9)
-        eff_y_9 = worksheet[cell_BC].value
-        eff_y_list.append(eff_y_9)
-
+        eff_x_9 = (worksheet[cell_BB].value)
+        # eff_x_list.append(eff_x_9)
+        eff_x_9_list.append(eff_x_9)
+        eff_y_9 = (worksheet[cell_BC].value)
+        # eff_y_list.append(eff_y_9)
+        eff_y_9_list.append(eff_y_9)
         if eff_x_8 != None:
             eff_dia_9 = worksheet['BB3'].value
             eff_dia_list.append(eff_dia_9)
@@ -403,11 +426,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BE = 'BE' + str(current_row)
         cell_BF = 'BF' + str(current_row)
-        eff_x_10 = worksheet[cell_BE].value
-        eff_x_list.append(eff_x_10)
-        eff_y_10 = worksheet[cell_BF].value
-        eff_y_list.append(eff_y_10)
-
+        eff_x_10 = (worksheet[cell_BE].value)
+        # eff_x_list.append(eff_x_10)
+        eff_x_10_list.append(eff_x_10)
+        eff_y_10 = (worksheet[cell_BF].value)
+        # eff_y_list.append(eff_y_10)
+        eff_y_10_list.append(eff_y_10)
         if eff_x_10 != None:
             eff_dia_10 = worksheet['BE3'].value
             eff_dia_list.append(eff_dia_10)
@@ -418,11 +442,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BH = 'BH' + str(current_row)
         cell_BI = 'BI' + str(current_row)
-        eff_x_11 = worksheet[cell_BH].value
-        eff_x_list.append(eff_x_11)
-        eff_y_11 = worksheet[cell_BI].value
-        eff_y_list.append(eff_y_11)
-
+        eff_x_11 = (worksheet[cell_BH].value)
+        # eff_x_list.append(eff_x_11)
+        eff_x_11_list.append(eff_x_11)
+        eff_y_11 = (worksheet[cell_BI].value)
+        # eff_y_list.append(eff_y_11)
+        eff_y_11_list.append(eff_y_11)
         if eff_x_11 != None:
             eff_dia_11 = worksheet['BH3'].value
             eff_dia_list.append(eff_dia_11)
@@ -433,11 +458,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BK = 'BK' + str(current_row)
         cell_BL = 'BL' + str(current_row)
-        eff_x_12 = worksheet[cell_BK].value
-        eff_x_list.append(eff_x_12)
-        eff_y_12 = worksheet[cell_BL].value
-        eff_y_list.append(eff_y_12)
-
+        eff_x_12 = (worksheet[cell_BK].value)
+        # eff_x_list.append(eff_x_12)
+        eff_x_12_list.append(eff_x_12)
+        eff_y_12 = (worksheet[cell_BL].value)
+        # eff_y_list.append(eff_y_12)
+        eff_y_12_list.append(eff_y_12)
         if eff_x_12 != None:
             eff_dia_12 = worksheet['BK3'].value
             eff_dia_list.append(eff_dia_12)
@@ -448,11 +474,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BK = 'BN' + str(current_row)
         cell_BL = 'BO' + str(current_row)
-        eff_x_13 = worksheet[cell_BK].value
-        eff_x_list.append(eff_x_13)
-        eff_y_13 = worksheet[cell_BL].value
-        eff_y_list.append(eff_y_13)
-
+        eff_x_13 = (worksheet[cell_BK].value)
+        # eff_x_list.append(eff_x_13)
+        eff_x_13_list.append(eff_x_13)
+        eff_y_13 = (worksheet[cell_BL].value)
+        # eff_y_list.append(eff_y_13)
+        eff_y_13_list.append(eff_y_13)
         if eff_x_13 != None:
             eff_dia_13 = worksheet['BN3'].value
             eff_dia_list.append(eff_dia_13)
@@ -463,11 +490,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BQ = 'BQ' + str(current_row)
         cell_BR = 'BR' + str(current_row)
-        eff_x_14 = worksheet[cell_BQ].value
-        eff_x_list.append(eff_x_14)
-        eff_y_14 = worksheet[cell_BR].value
-        eff_y_list.append(eff_y_14)
-
+        eff_x_14 = (worksheet[cell_BQ].value)
+        # eff_x_list.append(eff_x_14)
+        eff_x_14_list.append(eff_x_14)
+        eff_y_14 = (worksheet[cell_BR].value)
+        # eff_y_list.append(eff_y_14)
+        eff_y_14_list.append(eff_y_14)
         if eff_x_14 != None:
             eff_dia_14 = worksheet['BQ3'].value
             eff_dia_list.append(eff_dia_14)
@@ -478,11 +506,12 @@ def update_data_excel(excel_file,fac_number):
 
         cell_BT = 'BT' + str(current_row)
         cell_BU = 'BU' + str(current_row)
-        eff_x_15 = worksheet[cell_BT].value
-        eff_x_list.append(eff_x_15)
-        eff_y_15 = worksheet[cell_BU].value
-        eff_y_list.append(eff_y_15)
-
+        eff_x_15 = (worksheet[cell_BT].value)
+        # eff_x_list.append(eff_x_15)
+        eff_x_15_list.append(eff_x_15)
+        eff_y_15 = (worksheet[cell_BU].value)
+        # eff_y_list.append(eff_y_15)
+        eff_y_15_list.append(eff_y_15)
         if eff_x_15 != None:
             eff_dia_15 = worksheet['BT3'].value
             eff_dia_list.append(eff_dia_15)
@@ -505,7 +534,7 @@ def update_data_excel(excel_file,fac_number):
     # id_eff = pd.read_sql('SELECT id FROM `factory_table` WHERE fac_number = "fac-0255"  and data_type = "eff"' , con=mydb).values.tolist()
     # print(eff_dia_list)
     eff_rl = []
-    # print(eff_dia_list)
+    
     for item in eff_dia_list:
         if isinstance(item, float):
             item = item * 100
@@ -513,6 +542,7 @@ def update_data_excel(excel_file,fac_number):
         else:
             eff_rl.append(item)
     # print(se_quence_eff_list)
+    # print(eff_dia_list)
     eff_cleaned = []
     for item in eff_dia_list:
         if isinstance(item, str):
@@ -525,16 +555,227 @@ def update_data_excel(excel_file,fac_number):
 
 
 
+    eff_x_1_list = [item for item in eff_x_1_list if item is not None]
+    eff_y_1_list = [item for item in eff_y_1_list if item is not None]
+
+    eff_x_2_list = [item for item in eff_x_2_list if item is not None]
+    eff_y_2_list = [item for item in eff_y_2_list if item is not None]
+        
+    eff_x_3_list = [item for item in eff_x_3_list if item is not None]
+    eff_y_3_list = [item for item in eff_y_3_list if item is not None]
+        
+    eff_x_4_list = [item for item in eff_x_4_list if item is not None]
+    eff_y_4_list = [item for item in eff_y_4_list if item is not None]
+        
+    eff_x_5_list = [item for item in eff_x_5_list if item is not None]
+    eff_y_5_list = [item for item in eff_y_5_list if item is not None]
+        
+    eff_x_6_list = [item for item in eff_x_6_list if item is not None]
+    eff_y_6_list = [item for item in eff_y_6_list if item is not None]
+        
+    eff_x_7_list = [item for item in eff_x_7_list if item is not None]
+    eff_y_7_list = [item for item in eff_y_7_list if item is not None]
+        
+    eff_x_8_list = [item for item in eff_x_8_list if item is not None]
+    eff_y_8_list = [item for item in eff_y_8_list if item is not None]
+        
+    eff_x_9_list = [item for item in eff_x_9_list if item is not None]
+    eff_y_9_list = [item for item in eff_y_9_list if item is not None]
+        
+    eff_x_10_list = [item for item in eff_x_10_list if item is not None]
+    eff_y_10_list = [item for item in eff_y_10_list if item is not None]
+        
+    eff_x_11_list = [item for item in eff_x_11_list if item is not None]
+    eff_y_11_list = [item for item in eff_y_11_list if item is not None]
+        
+    eff_x_12_list = [item for item in eff_x_13_list if item is not None]
+    eff_y_13_list = [item for item in eff_y_13_list if item is not None]
+        
+    eff_x_14_list = [item for item in eff_x_14_list if item is not None]
+    eff_y_14_list = [item for item in eff_y_14_list if item is not None]    
+
+    eff_x_15_list = [item for item in eff_x_15_list if item is not None]
+    eff_y_15_list = [item for item in eff_y_15_list if item is not None]
+
+    pre_eff1 = list(zip(eff_x_1_list, eff_y_1_list))
+    pre_eff2 = list(zip(eff_x_2_list, eff_y_2_list))
+    pre_eff3 = list(zip(eff_x_3_list, eff_y_3_list))
+    pre_eff4 = list(zip(eff_x_4_list, eff_y_4_list))
+    pre_eff5 = list(zip(eff_x_5_list, eff_y_5_list))
+    pre_eff6 = list(zip(eff_x_6_list, eff_y_6_list))
+    pre_eff7 = list(zip(eff_x_7_list, eff_y_7_list))
+    pre_eff8 = list(zip(eff_x_8_list, eff_y_8_list))
+    pre_eff9 = list(zip(eff_x_9_list, eff_y_9_list))
+    pre_eff10 = list(zip(eff_x_10_list, eff_y_10_list))
+    pre_eff11 = list(zip(eff_x_11_list, eff_y_11_list))
+    pre_eff12 = list(zip(eff_x_12_list, eff_y_12_list))
+    pre_eff13 = list(zip(eff_x_13_list, eff_y_13_list))
+    pre_eff14 = list(zip(eff_x_14_list, eff_y_14_list))
+    pre_eff15 = list(zip(eff_x_15_list, eff_y_15_list))
+
+
+
+
+
+        
+
+    empty_data = ([], [])
+    try:
+        ready_eff1_x, ready_eff1_y = sort_eff(pre_eff1)
+    except:
+        ready_eff1_x, ready_eff1_y = empty_data
+    try:
+        ready_eff2_x, ready_eff2_y = sort_eff(pre_eff2)
+    except:
+        ready_eff2_x, ready_eff2_y = empty_data
+    try:
+        ready_eff3_x, ready_eff3_y = sort_eff(pre_eff3)
+    except:
+        ready_eff3_x, ready_eff3_y = empty_data
+    try:
+        ready_eff4_x, ready_eff4_y = sort_eff(pre_eff4)
+    except:
+        ready_eff4_x, ready_eff4_y = empty_data
+    try:
+        ready_eff5_x, ready_eff5_y = sort_eff(pre_eff5)
+    except:
+        ready_eff5_x, ready_eff5_y = empty_data
+    try:
+        ready_eff6_x, ready_eff6_y = sort_eff(pre_eff6)
+    except:
+        ready_eff6_x, ready_eff6_y = empty_data
+    try:
+        ready_eff7_x, ready_eff7_y = sort_eff(pre_eff7)
+    except:
+        ready_eff7_x, ready_eff7_y = empty_data
+    try:
+        ready_eff8_x, ready_eff8_y = sort_eff(pre_eff8)
+    except:
+        ready_eff8_x, ready_eff8_y = empty_data
+    try:
+        ready_eff9_x, ready_eff9_y = sort_eff(pre_eff9)
+    except:
+        ready_eff9_x, ready_eff9_y = empty_data
+    try:
+        ready_eff10_x, ready_eff10_y = sort_eff(pre_eff10)
+    except:
+        ready_eff10_x, ready_eff10_y = empty_data
+    try:
+        ready_eff11_x, ready_eff11_y = sort_eff(pre_eff11)
+    except:
+        ready_eff11_x, ready_eff11_y = empty_data
+    try:
+        ready_eff12_x, ready_eff12_y = sort_eff(pre_eff12)
+    except:
+        ready_eff12_x, ready_eff12_y = empty_data
+    try:
+        ready_eff13_x, ready_eff13_y = sort_eff(pre_eff13)
+    except:
+        ready_eff13_x, ready_eff13_y = empty_data
+    try:
+        ready_eff14_x, ready_eff14_y = sort_eff(pre_eff14)
+    except:
+        ready_eff14_x, ready_eff14_y = empty_data
+    try:
+        ready_eff15_x, ready_eff15_y = sort_eff(pre_eff15)
+    except:
+        ready_eff15_x, ready_eff15_y = empty_data
+
+    
+
+
+    sum_eff = len(ready_eff1_x) + len(ready_eff2_x) + len(ready_eff3_x) + len(ready_eff4_x) \
+    + len(ready_eff5_x) + len(ready_eff6_x) + len(ready_eff7_x) 
+    + len(ready_eff8_x) + len(ready_eff9_x) + len(ready_eff10_x) + len(ready_eff11_x) + len(ready_eff12_x)\
+    + len(ready_eff13_x) + len(ready_eff14_x) + len(ready_eff15_x) 
+
+    print(sum_eff)
+
+    for i in range(sum_eff):
+        try:
+            eff_x_list.append(ready_eff1_x[i])
+            eff_y_list.append(ready_eff1_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff2_x[i])
+            eff_y_list.append(ready_eff2_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff3_x[i])
+            eff_y_list.append(ready_eff3_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff4_x[i])
+            eff_y_list.append(ready_eff4_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff5_x[i])
+            eff_y_list.append(ready_eff5_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff6_x[i])
+            eff_y_list.append(ready_eff6_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff7_x[i])
+            eff_y_list.append(ready_eff7_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff8_x[i])
+            eff_y_list.append(ready_eff8_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff9_x[i])
+            eff_y_list.append(ready_eff9_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff10_x[i])
+            eff_y_list.append(ready_eff10_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff11_x[i])
+            eff_y_list.append(ready_eff11_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff12_x[i])
+            eff_y_list.append(ready_eff12_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff13_x[i])
+            eff_y_list.append(ready_eff13_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff14_x[i])
+            eff_y_list.append(ready_eff14_y[i])
+        except:
+            pass
+        try:
+            eff_x_list.append(ready_eff15_x[i])
+            eff_y_list.append(ready_eff15_y[i])
+        except:
+            pass
+
+    # print(eff_x_list)
+    # print(eff_y_list)
 
     eff_x_list = [item for item in eff_x_list if item is not None]
-    eff_x_list = [value * 3.6 for value in eff_x_list]
     eff_y_list = [item for item in eff_y_list if item is not None]
+    # for i in range(len(eff_cleaned)):
+    #     print(eff_cleaned[i],eff_x_list[i],eff_y_list[i])
 
-    # try :
-    #     for i in range(len(eff_dia_list)):
-    #         print(eff_cleaned[i],eff_x_list[i],eff_y_list[i])
-    # except:
-    #     pass
     se_quence = 4
 
     # for i in range(len(eff_cleaned)):
@@ -544,9 +785,7 @@ def update_data_excel(excel_file,fac_number):
     #     cursor.execute(insert_eff_query)
     #     mydb.commit()
 
-    # print(len(eff_cleaned))
-    # print(len(eff_x_list))
-    # print(len(eff_y_list))
+
 
     #############
     #POWER
@@ -716,12 +955,20 @@ def update_data_excel(excel_file,fac_number):
     #     except ValueError:
     #         power_dia_list = [{item.replace(' mm', '')} for item in power_dia_list if item is not None]
 
+    if isinstance(power_dia_list, list) and all(isinstance(item, (int, float)) for item in power_dia_list):
+        # รายการภายใน power_dia_list เป็น int หรือ float ทั้งหมด
+        pass
+    else:
+        power_dia_list = [
+            float(item.replace('kW', '').replace('kw', '').replace('KW', '').replace(' mm', '').replace('mm', '').replace(' m',''))
+            if isinstance(item, str) and item is not None else item
+            for item in power_dia_list
+        ]
+
+
 
     
-    power_dia_list = [
-        float(item.replace('kW', '').replace('kw', '').replace(' mm', '').replace('mm', ''))
-        for item in power_dia_list if item is not None
-    ]
+
 
 
 
@@ -733,7 +980,6 @@ def update_data_excel(excel_file,fac_number):
     # print(power_dia_list_pre)
 
     power_x_list = [item for item in power_x_list if item is not None]
-    power_x_list = [value * 3.6 for value in power_x_list]
     power_y_list = [item for item in power_y_list if item is not None]
 
 
@@ -830,7 +1076,7 @@ def update_data_excel(excel_file,fac_number):
         npshr_x_4 = worksheet[cell_DI].value
         npshr_x_list.append(npshr_x_4)
         npshr_y_4 = worksheet[cell_DJ].value
-        npshr_y_list.append(npshr_x_4)
+        npshr_y_list.append(npshr_y_4)
 
         if npshr_x_4 != None:
             npshr_dia_4 = worksheet['DI3'].value
@@ -873,21 +1119,26 @@ def update_data_excel(excel_file,fac_number):
         current_row += 1
 
 
+    if isinstance(npshr_dia_list, list) and all(isinstance(item, (int, float)) for item in npshr_dia_list):
+        # รายการภายใน npshr_dia_list เป็น int หรือ float ทั้งหมด
+        pass
+    else:
+        npshr_dia_list = [
+            float(re.search(r'\d+(\.\d+)?', item).group()) if isinstance(item, str) and item is not None else item
+            for item in npshr_dia_list
+        ]
 
-    try:
-        npshr_dia_list = [{item.replace('m', '')} for item in npshr_dia_list if item is not None]
-    except ValueError:
-        npshr_dia_list = [{item.replace(' m', '')} for item in npshr_dia_list if item is not None]
+
 
     
     # print(npshr_dia_list,".................")
     npshr_dia_list_pre = []
 
     for data in npshr_dia_list:
-        npshr_dia_list_pre.append(float(data.pop()))
+        if data is not None:
+            npshr_dia_list_pre.append(data)
 
     npshr_x_list = [item for item in npshr_x_list if item is not None]
-    npshr_x_list = [value * 3.6 for value in npshr_x_list]
     npshr_y_list = [item for item in npshr_y_list if item is not None]
 
 
@@ -904,7 +1155,23 @@ def update_data_excel(excel_file,fac_number):
     #     print(npshr_dia_list_pre[i],npshr_x_list[i],npshr_y_list[i])
 
     # cursor.close()
-    
+    # print(eff_cleaned[450:-1])
+    # print(eff_x_list[450:-1])
+    # print(eff_y_list[450:-1])
+    # print(len(eff_cleaned))
+    # try:
+    #     for i in range(len(eff_cleaned)):
+    #         print(eff_cleaned[i])
+    #         print(eff_x_list[i])
+    #         print(eff_y_list[i])
+    # except:
+    #     pass
+
+    # print(len(eff_cleaned))
+    # print(len(eff_x_list))
+    # print(len(eff_y_list))
+    # print(eff_x_list)
+    # print(eff_y_list)
     return se_quence_imp_list, \
        imp_dia_list_pre, \
        imp_x_list, \

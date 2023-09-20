@@ -147,8 +147,6 @@ def loaddata_kiso(fac_number, fflow, hhead,dfkiso):
         power = dfkiso.query(
             f"data_type =='KW' and kw =={kw_dia}and fac_number == '{fac_number}'")['head'].tolist()
         power_y_list.append(power)
-    # print('power_x_list',len(power_x_list[0]),len(power_x_list[1]),len(power_x_list[2]))
-    # print('power_y_list',len(power_y_list[0]),len(power_y_list[1]),len(power_y_list[2]))
     (
         power_x_1,
         power_x_2,

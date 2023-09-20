@@ -47,33 +47,16 @@ href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'my_form_view' %}">Pump Selection</a>
+    <a class="navbar-brand" href="{% url 'my_form_view_cus' %}">Pump Selection</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'signup' %}">Register <span class="sr-only"></span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'read_user'%}">User Table</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'add_data'%}">Add Pump</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'read_table' %}">Table Pump</a>
-        </li>
 
-      </ul>
-      <ul class="navbar-nav right">
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Logout</a>
-        </li>
-    </ul>
-    </div>
-
+    <ul class="navbar-nav right">
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Logout</a>
+      </li>
+  </ul>
   </nav>
   <br>
   

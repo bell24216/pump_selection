@@ -2,17 +2,60 @@
 
 {% block title %}Login{% endblock %}
 {% block body %}
-<div class="container text">
-<h1> Login </h1>
+<div class="container mt-5">
+  <div class="text-center">
+      <!-- ใช้คลาส text-center เพื่อจัดให้หัวเรื่องอยู่ตรงกลาง -->
+      <h1 class="mb-4">PumpSelection</h1>
+      <h2>Login</h2>
+      
+    </div>
 
-<form method="POST"id="myForm">
-{% csrf_token %}
-    <input type="text" step="any" class="form-control" name="name" id="name" required value placeholder="Name">
-    <br>
-    <input type="password" step="any" class="form-control" name="password" id="password" required value placeholder="Password">
-    <br>
 
-    <button type="submit" class="btn btn-success">Submit</button>
-  </form>
-</div>
+  <br>
+  
+  <div class="container">
+  <form method="POST"id="myForm">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col">
+
+    </div>
+    <div class="col order-12">
+      <input type="text" step="any" class="form-control" name="name" id="name" required value placeholder="Name">
+    </div>
+    <div class="col order-1">
+
+    </div>
+    
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+
+    </div>
+    <div class="col order-12">
+      <input type="password" step="any" class="form-control" name="password" id="password" required value placeholder="Password">
+    </div>
+    <div class="col order-1">
+
+    </div>
+    
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+
+    </div>
+    <div class="col order-12">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+    <div class="col order-1">
+
+    </div>
+    
+  </div>
+
+    </form>
+  </div>
+
 {% endblock %}

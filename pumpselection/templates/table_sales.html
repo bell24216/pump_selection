@@ -1,4 +1,4 @@
-{% extends 'login_main.html' %}
+{% extends 'login_main_sales.html' %}
 <title>{% block title %} Table Pump{% endblock %}</title>
 {% block body %}
 
@@ -25,7 +25,7 @@
     {% for index, row in data_table.iterrows %}
       <tr>
         <td>{{ forloop.counter }}</td>
-        <td><a href="/details/{{ row.fac_number }}">{{ row.fac_number }}</a></td>
+        <td><a href="details/sales/{{ row.fac_number }}">{{ row.fac_number }}</a></td>
         <td>{{ row.equipment }}</td>
         <td>{{ row.brand }}</td>
         <td>{{ row.model_short }}</td>
